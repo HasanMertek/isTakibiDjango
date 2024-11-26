@@ -13,7 +13,7 @@ Teknolojiler:
 
 - Django 5.1.3
 - Python 3.x
-- SQLite (varsayılan veritabanı)
+-PostgreSQL
 - Bootstrap (frontend tasarımı için)
 
 Kurulum:
