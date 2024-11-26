@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Geç Kalma Bildirimleri</h2>
+    
+    {% if notifications %}
+        <div class="list-group">
+            {% for notification in notifications %}
+                <div class="list-group-item {% if not notification.is_read %}list-group-item-warning{% endif %}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ notification.personal.name }} {{ notification.personal.surname }}</h5>
+                        <small>{{ notification.created_at|timesince }} önce</small>
+                    </div>
+                    <p class="mb-1">
+                        Giriş Saati: {{ notification.login_time|time:"H:i" }}<br>
+                        Gecikme Süresi: {{ notification.late_duration }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Okunmamış bildirim bulunmamaktadır.
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

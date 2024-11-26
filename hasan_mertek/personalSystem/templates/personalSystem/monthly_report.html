@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>{{ month }} Çalışma Raporu</h4>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h5>Toplam Çalışma Saati</h5>
+                            <h3>{{ total_hours|floatformat:2 }} saat</h3>
+                            <small class="text-muted">Beklenen: {{ expected_hours }} saat</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Giriş</th>
+                            <th>Çıkış</th>
+                            <th>Toplam Saat</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for day in working_hours %}
+                        <tr {% if day.is_weekend %}class="table-secondary"{% endif %}>
+                            <td>{{ day.date|date:"d.m.Y l" }}</td>
+                            <td>{{ day.check_in|time:"H:i"|default:"-" }}</td>
+                            <td>{{ day.check_out|time:"H:i"|default:"-" }}</td>
+                            <td>{{ day.total_hours|floatformat:2 }}</td>
+                            <td>
+                                {% if day.is_weekend %}
+                                    <span class="badge bg-secondary">Hafta Sonu</span>
+                                {% elif day.total_hours < 10 %}
+                                    <span class="badge bg-warning">Eksik Mesai</span>
+                                {% else %}
+                                    <span class="badge bg-success">Tam Mesai</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

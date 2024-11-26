@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>İzin Durumu</h4>
+                    <a href="{% url 'personalSystem:request_leave' %}" class="btn btn-primary float-end">İzin Talep Et</a>
+                </div>
+                <div class="card-body">
+                    <h5>Kalan Yıllık İzin: {{ remaining_leave }}</h5>
+                    <p>Toplam Geç Kalma: {{ total_late_hours }} saat</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4>İzin Kullanım Geçmişi</h4>
+                </div>
+                <div class="card-body">
+                    {% if leave_usages %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Tarih</th>
+                                        <th>Tür</th>
+                                        <th>Kullanılan Süre</th>
+                                        <th>Açıklama</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for usage in leave_usages %}
+                                    <tr>
+                                        <td>{{ usage.date|date:"d.m.Y" }}</td>
+                                        <td>{{ usage.get_leave_type_display }}</td>
+                                        <td>{{ usage.hours_used }} saat</td>
+                                        <td>{{ usage.description }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Henüz izin kullanım kaydı bulunmamaktadır.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
